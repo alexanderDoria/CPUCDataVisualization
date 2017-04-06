@@ -1,18 +1,18 @@
 install.packages("igraph") 
-install.packages("network") 
-install.packages("sna")
-install.packages("visNetwork")
-install.packages("ndtv", dependencies=T)
-
 library("igraph")
 
 rm(list = ls()) 
+path <- getwd()
 
 #set path to downloaded folder
-setwd("C:/Users/Red-8/Downloads/polnet2016") 
+#setwd("C:/Users/Red-8/Downloads/polnet2016") 
 
-nodes <- read.csv("./Data files/Dataset1-Media-Example-NODES.csv", header=T, as.is=T)
-links <- read.csv("./Data files/Dataset1-Media-Example-EDGES.csv", header=T, as.is=T)
+#adjust if needed
+node_path = paste0(path, "/CPUC/polnet2016/Data files/Dataset1-Media-Example-NODES.csv")
+links_path = paste0(path, "/CPUC/polnet2016/Data files/Dataset1-Media-Example-EDGES.csv")
+
+nodes <- read.csv(node_path, header=T, as.is=T)
+links <- read.csv(links_path, header=T, as.is=T)
 
 # Converting the data to an igraph object:
 # The graph_from_data_frame() function takes two data frames: 'd' and 'vertices'.
@@ -32,10 +32,6 @@ V(net)$media
 # or a matrix back from the igraph networks.
 as_edgelist(net, names=T)
 as_adjacency_matrix(net, attr="weight")
-
-# Or data frames describing nodes and edges:
-as_data_frame(net, what="edges")
-as_data_frame(net, what="vertices")
 
 # First attempt to plot the graph:
 plot(net) # not pretty!
@@ -60,6 +56,7 @@ plot(net, edge.arrow.size=.4, edge.curved=0,
      vertex.color="orange", vertex.frame.color="#555555",
      vertex.label=V(net)$media, vertex.label.color="black",
      vertex.label.cex=.7) 
+
 # The second way to set attributes is to add them to the igraph object.
 
 # Generate colors based on media type:
@@ -93,7 +90,6 @@ plot(net)
 # 'pt.cex' is the symbol size, 'bty' is the type of box around the legend,
 # and 'ncol' is the number of columns in which the legend is set).
 
-plot(net) 
 legend(x=-1.1, y=-1.1, c("Newspaper","Television", "Online News"), pch=21,
        col="#777777", pt.bg=colrs, pt.cex=2.5, bty="n", ncol=1)
 
@@ -106,3 +102,4 @@ plot(net, vertex.shape="none", vertex.label=V(net)$media,
      vertex.label.cex=1.2, edge.color="gray90")
 
 
+#as for the CPUC data...
